@@ -47,7 +47,7 @@ class AndroidSdkToolsFactory {
       def sourcePropertiesFile = new File(toolsDir, SOURCE_PROPERTIES_FILE)
       assert sourcePropertiesFile.exists()
       ant.property(file: sourcePropertiesFile)
-      toolsRevision = Integer.parseInt(ant[PKG_REVISION_PROPERTY])
+      toolsRevision = Integer.parseInt(ant[PKG_REVISION_PROPERTY].replaceAll(/\..*$/, ''))
     }
 
     return toolsRevision
