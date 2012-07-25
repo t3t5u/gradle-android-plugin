@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-package com.jvoegele.gradle.tasks.android.exceptions;
+package com.jvoegele.gradle.android
 
-class InstrumentationTestsFailedException extends AdbErrorException {
-  def InstrumentationTestsFailedException() {
-    super("There were test failures")
+import org.junit.Test
+
+class MultiResourceProjectTest extends AbstractIntegrationTest {
+  @Test
+  void build() {
+    def p = project('multi_resource')
+
+    p.runTasks 'clean', 'build', buildScript: 'multi_resource.gradle'
+
+    p.fileExists 'build/distributions/multi_resource-1.0.apk'
+
+    p.archive('build/distributions/multi_resource-1.0.apk').assertContains 'res/drawable/icon.png'
+    p.archive('build/distributions/multi_resource-1.0.apk').assertContains 'res/drawable/icon2.png'
   }
 }
